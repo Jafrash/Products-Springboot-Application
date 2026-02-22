@@ -1,0 +1,15 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: Product
+
+  datasource:
+    url: jdbc:h2:mem:products
+    username: jafra
+    password: 123
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
