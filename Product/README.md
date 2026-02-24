@@ -28,23 +28,12 @@ A simple RESTful API built with Spring Boot for managing product/employee record
 This is a minimal, example Spring Boot application that demonstrates how to:
 
 - Model an entity with JPA and Lombok (`com.thehartford.Product.Model.Product`).
-- Persist data using Spring Data JPA and an in-memory H2 database.
 - Expose REST endpoints via a controller layer (`com.thehartford.Product.controller.ProductController`).
 - Keep business logic in a service layer (`com.thehartford.Product.service.ProductService`).
 - Use SpringDoc OpenAPI to provide API documentation.
 
 The app is intentionally small and suitable for learning, demos, or as a starter template.
 
-
-## Technology stack
-
-- Java 21
-- Spring Boot 3.2.0
-- Spring Data JPA
-- H2 (in-memory) database
-- Lombok (requires IDE support for convenient development)
-- SpringDoc OpenAPI (swagger UI)
-- Maven (build)
 
 
 ## Data model
@@ -126,124 +115,18 @@ curl -X DELETE http://localhost:8082/products/1
 
 Main configuration file: `src/main/resources/application.yaml`
 
-Key values in this project:
-
-- Server port: `8082`
-- Datasource: `jdbc:h2:mem:products`
-- H2 username: `jafra`
-- H2 password: `123`
 
 Note: Because H2 is in-memory, data will be lost when the application stops.
 
 
 ## Build and run
 
-Prerequisites:
-
-- Java 21 (JDK) installed and `JAVA_HOME` set.
-- Maven 3.6+ (if not using the wrapper).
-- If you use Lombok, install the Lombok plugin for your IDE (Eclipse/IntelliJ) to avoid IDE errors.
-
-Using the Maven wrapper (Windows PowerShell):
-
-```powershell
-# From project root (where mvnw.cmd lives)
-.\mvnw.cmd spring-boot:run
-```
-
-Using Maven directly:
-
-```powershell
-mvn spring-boot:run
-```
-
-Build a packaged JAR:
-
-```powershell
-mvn clean package
-# then run
-java -jar target\Product-0.0.1-SNAPSHOT.jar
-```
-
-The application listens on http://localhost:8082 by default.
 
 
-## Running tests
-
-Run unit/integration tests with Maven:
-
-```powershell
-mvn test
-```
+The application listens on http://localhost:8080 by default.
 
 
-## API documentation (Swagger / OpenAPI)
-
-SpringDoc is included and exposes an interactive Swagger UI. Possible URLs (depends on SpringDoc version and routing):
-
-- http://localhost:8082/swagger-ui/index.html
-- http://localhost:8082/swagger-ui.html
-- OpenAPI JSON: http://localhost:8082/v3/api-docs
-
-If you don't see the UI, check the application logs and ensure the `springdoc` dependency is on the classpath (it is included in `pom.xml`).
 
 
-## H2 Console
-
-To inspect the in-memory database, open the H2 console (if enabled) at:
-
-- http://localhost:8082/h2-console
-
-JDBC URL: `jdbc:h2:mem:products`
-User: `jafra`
-Password: `123`
-
-Note: The H2 console may be disabled in some Spring Boot setups; if it is not available, you can add the dependency `spring-boot-starter-jdbc` and set `spring.h2.console.enabled=true` in `application.yaml` for development.
-
-
-## Development notes and gotchas
-
-- **Lombok**
-  - The code uses Lombok annotations (`@Data`, `@NoArgsConstructor`, `@AllArgsConstructor`) in the model. Install the IDE plugin to avoid unresolved symbol warnings.
-  - Lombok is provided as an annotation processor in `pom.xml`.
-
-- **IDs and updating**
-  - The controller's `PUT /products/{id}` sets the incoming product's `id` to the path variable and calls `save()` — this will perform an update when the ID exists or create a new row when it does not. Consider validating existence before updating if you want 404 semantics on update.
-
-- **Error handling**
-  - The project uses simple controller/service layers without global exception handling. For production code, add a `@ControllerAdvice` to handle validation errors, entity-not-found and other common cases.
-
-
-## Suggested improvements (next steps)
-
-- Add validation (e.g., `jakarta.validation` annotations) and return `400 Bad Request` for invalid inputs.
-- Add a `@ControllerAdvice` global exception handler and structured error responses.
-- Add integration tests that start the Spring context with the H2 DB and exercise the controller endpoints.
-- Replace H2 with a durable database (Postgres/MySQL) for non-ephemeral data.
-- Harden security: add authentication/authorization (Spring Security) if the API should be protected.
-
-
-## Where to look in the code
-
-- `src/main/java/com/thehartford/Product/ProductApplication.java` — Spring Boot entry point.
-- `src/main/java/com/thehartford/Product/Model/Product.java` — JPA entity for Product.
-- `src/main/java/com/thehartford/Product/repo/Productrepo.java` — Spring Data JPA repository.
-- `src/main/java/com/thehartford/Product/service/ProductService.java` — service layer wrapping repository.
-- `src/main/java/com/thehartford/Product/controller/ProductController.java` — REST controller exposing endpoints.
-- `src/main/resources/application.yaml` — application configuration (port and datasource).
-- `pom.xml` — build configuration and dependencies.
-
-
-## License
-
-This project is provided as-is for learning and demonstration purposes. No license is declared in this repository; add an appropriate license if you plan to reuse or publish the project.
-
-
----
-
-If you'd like, I can also:
-- Add example Postman collection JSON for the endpoints.
-- Add basic integration tests (using @SpringBootTest) that exercise the API.
-- Add a `Makefile` or a small PowerShell script to automate common tasks.
 
 Tell me which addition you'd like and I'll add it next.
